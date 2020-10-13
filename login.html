@@ -1,1 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log in</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="./style/style.css">
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <h1>Booking.kz</h1>
+        </div>
+    </header>
+    <main>
+        <div class="content">
+            <form id="form" class="form">
+                <div class="form-control">
+                    <label for="usr"><b>Username</b></label>
+                    <input type="text" placeholder="Enter Username" id="usr" name="usr" />
+
+                    <small>Error message</small>
+                </div>
+                <div class="form-control">
+                    <label for="psw"><b>Password</b></label>
+                    <input type="password" placeholder="Enter Password" id="psw" name="psw" />
+
+                    <small>Error message</small>
+                </div>
+
+                <button type="submit" class="registerbtn">Submit</button>
+            </form>
+
+            <p>Don't have an account yet? <a href="./register.html">Register</a></p>
+        </div>
+    </main>
+
+</body>
+<script>
+    const form = document.getElementById('form');
+    const username = document.getElementById('usr');
+
+    const password = document.getElementById('psw');
+
+    form.addEventListener('submit', e => {
+
+        e.preventDefault();
+
+        checkInputs();
+        /*
+        if successAll() 
+            if not correct entries 
+                reload the page again
+        
+            redirect to a personal page with name as a parameter
+        }*/
+    });
+
+    function checkInputs() {
+        // trim to remove the whitespaces
+        const usernameValue = username.value.trim();
+        const passwordValue = password.value.trim();
+
+
+
+        if (usernameValue === '') {
+            setErrorFor(username, 'Username cannot be blank');
+        } else {
+            setSuccessFor(username);
+        }
+
+        if (passwordValue === '') {
+            setErrorFor(password, 'Password cannot be blank');
+        } else if (!checkpassword(passwordValue)) {
+            setErrorFor(password, 'Password must contain 4 to 10 characters which contain only characters, numeric digits, underscore and first character must be a letter');
+        } else {
+            setSuccessFor(password);
+        }
+
+    }
+
+    function setErrorFor(input, message) {
+        const formControl = input.parentElement;
+        const small = formControl.querySelector('small');
+        formControl.className = 'form-control error';
+        small.innerText = message;
+    }
+
+    function setSuccessFor(input) {
+        const formControl = input.parentElement;
+        formControl.className = 'form-control success';
+    }
+
+    function checkpassword(p) {
+        var passw = /^[A-Za-z]\w{3,9}$/;
+        if (p.match(passw)) {
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>
+
+</html>
