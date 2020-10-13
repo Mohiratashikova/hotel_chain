@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="./style/style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css"></script>
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <h1>Booking.kz</h1>
+        </div>
+    </header>
+    <main>
+        <div class="content">
+            <h1 class="sign-in">Create your account</h1>
+            <p>Create an account to easily use our services.</p>
+
+            <form id="form" class="form">
+                <div class="form-control">
+                    <label for="usr"><b>Username</b></label>
+                    <input type="text" placeholder="Enter Username" id="usr" name="usr" />
+
+                    <small>Error message</small>
+                </div>
+                <div class="form-control">
+                    <label for="psw"><b>Password</b></label>
+                    <input type="password" placeholder="Enter Password" id="psw" name="psw" />
+
+                    <small>Error message</small>
+                </div>
+                <div class="form-control">
+                    <label for="psw-repeat"><b>Password check</b></label>
+                    <input type="password" placeholder="Repeat Password" id="psw-repeat" name="psw-repeat" />
+
+                    <small>Error message</small>
+                </div>
+                <button type="submit" class="registerbtn">Submit</button>
+            </form>
+            <p>Already have an account?<a href="./login.html">Sign in</a></p>
+        </div>
+    </main>
+</body>
+<script>
+    const form = document.getElementById('form');
+    const username = document.getElementById('usr');
+
+    const password = document.getElementById('psw');
+    const password2 = document.getElementById('psw-repeat');
+
+    form.addEventListener('submit', e => {
+
+        e.preventDefault();
+
+        checkInputs();
+        /*if successAll() {
+            redirect to a personal page with name as a parameter
+        }*/
+    });
+
+    function checkInputs() {
+        // trim to remove the whitespaces
+        const usernameValue = username.value.trim();
+        const passwordValue = password.value.trim();
+        const password2Value = password2.value.trim();
+
+
+        if (usernameValue === '') {
+            setErrorFor(username, 'Username cannot be blank');
+        }
+        /* else if (registered(usernameValue) == "true") { //also check if database doesnt contain same username
+                    setErrorFor(username, 'Username is already taken');
+                }*/
+        else {
+            setSuccessFor(username);
+        }
+
+        if (passwordValue === '') {
+            setErrorFor(password, 'Password cannot be blank');
+        } else if (!checkpassword(passwordValue)) {
+            setErrorFor(password, 'Password must contain 4 to 10 characters which contain only characters, numeric digits, underscore and first character must be a letter');
+        } else {
+            setSuccessFor(password);
+        }
+
+        if (password2Value === '') {
+            setErrorFor(password2, 'Password2 cannot be blank');
+        } else if (passwordValue !== password2Value) {
+            setErrorFor(password2, 'Passwords does not match');
+        } else {
+            setSuccessFor(password2);
+        }
+    }
+
+    function setErrorFor(input, message) {
+        const formControl = input.parentElement;
+        const small = formControl.querySelector('small');
+        formControl.className = 'form-control error';
+        small.innerText = message;
+    }
+
+    function setSuccessFor(input) {
+        const formControl = input.parentElement;
+        formControl.className = 'form-control success';
+    }
+
+    function checkpassword(p) {
+        var passw = /^[A-Za-z]\w{3,9}$/;
+        if (p.match(passw)) {
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function registered(usr) {
+
+        $.ajax({
+            url: '/checkUsername?usr=' + usr,
+            dataType: 'text',
+            success: function(r) {
+                return r;
+            }
+        });
+    }
+</script>
+
+</html>
