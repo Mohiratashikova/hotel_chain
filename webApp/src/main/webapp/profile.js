@@ -27,3 +27,12 @@ $('#delete2').click(function(){
 $('#delete3').click(function(){
     $("div").remove("#d3");
 });
+
+//create a function that clears the null value in the personal info sections: email, phone, 
+//can leave just a whitespace
+
+
+
+
+
+

@@ -1,10 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Page</title>
+    <meta name="viewport" http-equiv="Content-Type" content="width=device-width, initial-scale=1.0; text/html; charset=utf-8" />
+	<title>Profile Page</title>
     <link rel="stylesheet" href="./profile.css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
@@ -13,16 +15,21 @@
 </head>
 
 <body>
+
     <div class="container">
         <div class="profile-header">
             <div class="profile-img">
                 <img src="./images/105.jpg" width="200px" alt="">
             </div>
             <div class="profile-nav-info">
-                <h3 class="user-name">Surname Name</h3>
+                <h3 class="user-name">
+               <%= request.getAttribute("nickname") %>
+             
+                </h3>
                 <div class="address">
-                    <p class="state">New York,</p>
-                    <span class="country">USA.</span>
+                
+                    <p class="state"> <%= request.getAttribute("city") %> </p>
+                    <span class="country"> <%= request.getAttribute("country") %></span>
                 </div>
             </div>
 
@@ -30,9 +37,9 @@
         <div class="main-bd">
             <div class="left-side">
                 <div class="profile-side">
-                    <p class="mobile-no"><i class="fa fa-phone"></i>+7777xxxx7777</p>
-                    <p class="user-mail"><i class="fa fa-envelope"></i>youremail@gmail.com</p>
-
+                    
+                    <p class="user-mail"><i class="fa fa-envelope"></i> <%= request.getAttribute("name") %> <%= request.getAttribute("surname") %></p>
+<p class="mobile-no"><i class="fa fa-phone"></i> <%= request.getAttribute("mobile") %></p>
                     <div class="profile-btn">
 
                         <button class="createbtn" onclick='tabs(1)'>
@@ -55,7 +62,7 @@
                 <div class="profile-body">
                     <div class="profile-booking tab">
                         <h1>Your Bookings</h1>
-                        <div id="d1"class="booking">
+                        <div id="d1" class="booking">
 
                             <h3>California Hotel </h3>
                             <p>single</p>
@@ -84,7 +91,7 @@
                         <h1>Edit Profile</h1>
                         <div class="regform">
                             <div class="mane">
-                                <form action="#" method="POST">
+                                <form action="/first_sprint/edit" method="post" onSubmit="return checkProfile()">
                                     <div id="name">
                                         <h2 class="name">Name</h2>
                                         <input class="firstname" type="text" name="first_name" placeholder="First Name">
@@ -97,14 +104,14 @@
                                     <div class="id">
                                         <h2 class="name">Identification</h2><br>
 
-                                            <select class="option" id="idtype" name="idtype">
+                                        <select class="option" id="idtype" name="idtype">
                                                 <option disabled="disabled" selected="selected">--Choose Document--</option>
                                         <option value="passport">Passport</option>
                                         <option value="id">ID</option>
                                    
                                         
                                     </select>
-                                            <input type="text" name="idnumber" class="idnumber" placeholder="Enter Number">
+                                        <input type="text" name="idnumber" class="idnumber" placeholder="Enter Number">
 
                                     </div>
                                     <div class="address">
@@ -125,8 +132,8 @@
 
                                     </div>
 
-                                    <button>Save</button>
-                                    <button>Cancel</button>
+                                    <button >Save</button>
+                                    <button onclick="openProfilePage()">Cancel</button>
                                 </form>
                             </div>
                         </div>
