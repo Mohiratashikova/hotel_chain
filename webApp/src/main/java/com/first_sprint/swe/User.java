@@ -29,6 +29,19 @@ public class User {
 		this.country = country;
 		this.mobilePhone = mobile_phone;
 	}
+	public User(String username, String name, String surname, String idtype, String idnumber, String country, String city, String street, String home, String mobile) {
+		this.nickname = username;
+		this.name = name;
+		this.surname = surname;
+		this.city = city; 
+		this.country = country;
+		this.mobilePhone = mobile;
+		this.street = street;
+		this.homePhone = home;
+		this.idnumber = idnumber;
+		this.idtype = idtype;
+		
+	}
 	
 	public String getHomePhone() {
 		return homePhone;

@@ -16,7 +16,9 @@ public class UserManager {
 	private static final String SELECT_DATA_BY_USR = "select username, mobile_phone, country, name, surname, city from GUEST where username = ?";
 	private static final String FIND_USERNAME = "select count(*) from GUEST where username = ?";
 	private static final String CHECK_PASSWORD = "select count(*) from GUEST where username = ? and password = ?";
-	//private static final String UPDATE_USERS_SQL = "update users set name = ?,email= ?, country =? where id = ?;";
+	private static final String EDIT_USER = "update GUEST "
+			+ "set name = ?, surname = ?, IDType = ?, IDNumber = ?,  country = ?, city = ?, street = ?, home_phone = ?, mobile_phone = ? "
+			+ "where username = ?;";
 
 	public UserManager() {
 	}
@@ -113,6 +115,30 @@ public class UserManager {
 			printSQLException(e);
 		}
 		return false;
+	}
+	
+	public void editUser(User user) throws SQLException {
+		System.out.println(EDIT_USER);
+		// try-with-resource statement will auto close the connection.
+		try (Connection connection = getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(EDIT_USER)) {
+			preparedStatement.setString(1, user.getName());
+			preparedStatement.setString(2, user.getSurname());
+			preparedStatement.setString(3, user.getIdtype());
+			preparedStatement.setString(4, user.getIdnumber());
+			preparedStatement.setString(5, user.getCountry());
+			preparedStatement.setString(6, user.getCity());
+			preparedStatement.setString(7, user.getStreet());
+			preparedStatement.setString(8, user.getHomePhone());
+			preparedStatement.setString(9, user.getMobilePhone());
+			preparedStatement.setString(10, user.getNickname());
+			System.out.println(preparedStatement);
+			preparedStatement.executeUpdate();
+			
+		} catch (SQLException e) {
+			printSQLException(e);
+		}
+		
 	}
 	private void printSQLException(SQLException ex) {
 		for (Throwable e : ex) {

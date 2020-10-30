@@ -14,7 +14,7 @@ import javax.servlet.*;
 import com.google.gson.Gson;
 
 import javax.servlet.annotation.WebServlet;
-@WebServlet({"/register", "/checkUsername"})
+@WebServlet({"/register", "/checkUsername", "/edit"})
 public class MyServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private UserManager userManager;
@@ -42,6 +42,8 @@ public class MyServlet extends HttpServlet {
           case "/checkUsername":
             checkUsername(request, response);
             break;
+          case "/edit": 
+        	  editUser(request, response);
           default:
         	  def(request, response);
             break;
@@ -81,7 +83,7 @@ public class MyServlet extends HttpServlet {
     	   userManager.insertUser(user);
     	   RequestDispatcher rd = request.getRequestDispatcher("profile.jsp");
     	   request.setAttribute("nickname", user.getNickname());
- 	       request.setAttribute("mobile", "");
+ 	       request.setAttribute("mobile", "Your Mobile Number");
  	       request.setAttribute("country", "");
  	       request.setAttribute("city", "");
  	       request.setAttribute("name", "");
@@ -120,6 +122,35 @@ public class MyServlet extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+    }
+    private void editUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+    	response.setContentType("text/html");
+        User user = new User(request.getParameter("nickname"), 
+        		request.getParameter("first_name"),
+        		request.getParameter("last_name"),
+        		request.getParameter("idtype"),
+        		request.getParameter("idnumber"),
+        		request.getParameter("country"),
+        		request.getParameter("city"),
+        		
+        		request.getParameter("street"),
+        		request.getParameter("mobile"),
+        		request.getParameter("home")
+        		);
+        try {
+        	userManager.editUser(user);
+        RequestDispatcher rd = request.getRequestDispatcher("profile.jsp");
+		request.setAttribute("nickname", user.getNickname());
+	        request.setAttribute("mobile", user.getMobilePhone());
+	        request.setAttribute("country", user.getCountry());
+	        request.setAttribute("city", user.getCity());
+	        request.setAttribute("name", user.getName());
+	        request.setAttribute("surname", user.getSurname());
+	      rd.forward(request, response);
+        } catch (Exception e) {
+        	e.printStackTrace();
+        }
+        
     }
 }
 
