@@ -16,13 +16,7 @@
         <div class="form-container sign-up-container">
             <form id="form" action="/first_sprint/register" method="post" onSubmit="return checkReg(event)">
                 <h1>Create Account</h1>
-                <div class="social-container">
-                    <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
-                    <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
-                </div>
-                <span>or use your username for registration</span>
-
+ 
                 <div class="form-control"><input type="text" placeholder="Username" id="usr" name="usr" />
                     <small>Error message</small></div>
 
@@ -37,20 +31,14 @@
         <div class="form-container sign-in-container">
             <form id="form2" action="/first_sprint/register" method="post" onSubmit="return checkLog(event)">
                 <h1>Sign in</h1>
-                <div class="social-container">
-                    <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
-                    <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
-                </div>
-                <span>or use your account</span>
+       
                 <div class="form-control">
                 <input style="display:none;"type="text" value="1" name="login"/>
                     <input type="text" placeholder="Username" id="usr2" name="usr"/><small>Error message</small></div>
                 <div class="form-control"><input type="password" placeholder="Password" id="psw2" /><small>Error message</small></div>
                 <a href="#">Forgot your password?</a>
-                <button id="signIn1">Sign Up</button>
-            </form>
-        </div>
+                <button id="signIn1">Sign In</button>
+        </div>        
         <div class="overlay-container">
             <div class="overlay">
                 <div class="overlay-panel overlay-left">
@@ -65,6 +53,8 @@
                 </div>
             </div>
         </div>
+        
+ 
     </div>
 
 </body>

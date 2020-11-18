@@ -1,5 +1,7 @@
 package com.first_sprint.swe;
 
+import java.util.ArrayList;
+
 public class User {
 	private String ID;
 	private String nickname;
@@ -14,23 +16,24 @@ public class User {
 	private String homePhone;
 	private String name;
 	private String surname;
+	private ArrayList<Reservation> resrv = new ArrayList<Reservation>();
 	
-	public User(String nickname, String password) {
+	public User(String nickname) {
 		this.nickname = nickname;
-		this.password = password;
-		
 	}
 	
-	public User(String username, String name, String surname, String city, String country, String mobile_phone) {
+	public User(String username, String name, String surname, String city, String country, String mobile_phone, ArrayList<Reservation> resrv) {
 		this.nickname = username;
 		this.name = name;
 		this.surname = surname;
 		this.city = city; 
 		this.country = country;
 		this.mobilePhone = mobile_phone;
+		this.resrv = resrv;
 	}
 	public User(String username, String name, String surname, String idtype, String idnumber, String country, String city, String street, String home, String mobile) {
 		this.nickname = username;
+		
 		this.name = name;
 		this.surname = surname;
 		this.city = city; 
@@ -76,46 +79,52 @@ public class User {
 	public String getIdtype() {
 		return idtype;
 	}
+	public ArrayList<Reservation> getReservation() {
+		return resrv;
+	}
 	public void setIdtype(String idtype) {
 		this.idtype = idtype;
 	}
 	
 	public String getStreet() {
-		return street;
+		return this.street;
 	}
 	public void setStreet(String street) {
 		this.street = street;
 	}
 	public String getCity() {
-		return city;
+		return this.city;
 	}
 	public void setCity(String city) {
 		this.city = city;
 	}
 	public String getCountry() {
-		return country;
+		return this.country;
 	}
 	public void setCountry(String country) {
 		this.country = country;
 	}
 	
 	public String getNickname() {
-		return nickname;
+		return this.nickname;
 	}
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
 	public String getID() {
-		return ID;
+		return this.ID;
 	}
 	public void setID(String iD) {
-		ID = iD;
+		this.ID = iD;
 	}
 	public String getPassword() {
-		return password;
+		return this.password;
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	public ArrayList<Reservation> getReservations(){
+		return this.resrv;
 	}
 }
 

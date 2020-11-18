@@ -21,7 +21,67 @@ const password2 = document.getElementById('psw-repeat');
 
 const passwordLog = document.getElementById('psw2');
 
+/*//deskclerk:
 
+const signInButton2 = document.getElementById('signIn2');
+const form3 = document.getElementById('form3');
+const username3 = document.getElementById('usr3');
+const password3 = document.getElementById('psw3');
+
+
+function checkDeskLog(e) {
+	
+	e.preventDefault();
+	checkDeskLogInputs()
+	const usernameValue = username3.value.trim()
+    const passwordValue = password3.value.trim()
+
+	var result = false
+	
+    if (username3.parentElement.className == 'form-control success' && password3.parentElement.className == 'form-control success') {
+		form3.submit()		
+	}
+	return false
+}
+
+function checkDeskLogInputs() {
+	
+	const username = "deskclerk"
+	const password = "12345"
+    // trim to remove the whitespaces
+    const usernameValue = username3.value.trim();
+    const passwordValue = password3.value.trim();
+
+    if (usernameValue === '' ) {
+        setErrorFor(username3, 'Username cannot be blank');
+    } else if (username != usernameValue){
+		setErrorFor(username3, 'Username is not valid');
+	} else {
+        setSuccessFor(username3);
+    }
+
+    if (passwordValue === '') {
+        setErrorFor(password3, 'Password cannot be blank');
+    } else if (!checkpassword2(passwordValue)) {
+        setErrorFor(password3, 'Password must contain only numeric digits');
+    } else if (password != passwordValue){
+		setErrorFor(password3, 'Password is not valid');
+	} else {
+        setSuccessFor(password3);
+    }
+}
+
+function checkpassword2(p) {
+    var passw = /^{3,9}$/;
+    if (p.match(passw)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+//
+*/
 
 function checkReg(e) {
 	e.preventDefault();

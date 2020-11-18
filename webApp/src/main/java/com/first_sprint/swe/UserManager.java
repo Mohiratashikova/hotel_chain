@@ -5,15 +5,19 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 //import java.sql.Statement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.sql.PreparedStatement;
 
 public class UserManager {
 	private String jdbcURL = "jdbc:mysql://localhost:3306/mydb";
 	private String jdbcUsername = "root";
-	private String jdbcPassword = "root";
+	private String jdbcPassword = "password";
 	
 	private static final String INSERT_USERS_SQL = "INSERT INTO GUEST (username, password) VALUES (?, ?);";
-	private static final String SELECT_DATA_BY_USR = "select username, mobile_phone, country, name, surname, city from GUEST where username = ?";
+	private static final String SELECT_DATA_BY_USR = "select GuestID, username, mobile_phone, country, name, surname, city from GUEST where username = ?";
+	private static final String SELECT_RESERVATION_BY_USR = "SELECT * FROM RESERVATION WHERE GuestID = ?";
+	private static final String SELECT_RESERVATION2_BY_USR = "SELECT * FROM ROOM_has_RESERVATION WHERE GuestID = ?";
+	private static final String SELECT_HOTELNAME_BY_HOTELID = "SELECT name FROM HOTEL WHERE HotelID = ?";
 	private static final String FIND_USERNAME = "select count(*) from GUEST where username = ?";
 	private static final String CHECK_PASSWORD = "select count(*) from GUEST where username = ? and password = ?";
 	private static final String EDIT_USER = "update GUEST "
@@ -57,25 +61,63 @@ public class UserManager {
 		User retUser = null;
 		System.out.println(SELECT_DATA_BY_USR);
 		// try-with-resource statement will auto close the connection.
+		String username = "";
+		String mobile_phone = "";
+		String country = "";
+		String city = "";
+		String name = "";
+		String surname = "";
+		String guestID = "";
+		ArrayList<Reservation> reservation = new ArrayList<Reservation>();
+		
+		String checkin = "";
+		String checkout = "";
+		String id = "";
+		String hotel = "";
+		String room_type = "";
+		
 		try (Connection connection = getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(SELECT_DATA_BY_USR)) {
+				PreparedStatement preparedStatement = connection.prepareStatement(SELECT_DATA_BY_USR);
+						PreparedStatement preparedStatement2 = connection.prepareStatement(SELECT_RESERVATION_BY_USR);
+								PreparedStatement preparedStatement3 = connection.prepareStatement(SELECT_RESERVATION2_BY_USR);
+									PreparedStatement preparedStatement4 = connection.prepareStatement(SELECT_HOTELNAME_BY_HOTELID)) {
 			preparedStatement.setString(1, user.getNickname());
 			
 			System.out.println(preparedStatement);
 			
 			ResultSet rs = preparedStatement.executeQuery();
 			while (rs.next()) {
-				String username = rs.getString("username");
-				String mobile_phone = rs.getString("mobile_phone");
-				String country = rs.getString("country");
-				String city = rs.getString("city");
-				String name = rs.getString("name");
-				String surname = rs.getString("surname");
-				retUser = new User(username, name, surname, city, country, mobile_phone);
+				username = rs.getString("username");
+				mobile_phone = rs.getString("mobile_phone");
+				country = rs.getString("country");
+				city = rs.getString("city");
+				name = rs.getString("name");
+				surname = rs.getString("surname");
+				guestID = rs.getString("GuestID");
 			}
+			
+			preparedStatement2.setString(1, guestID);
+			ResultSet rs2 = preparedStatement2.executeQuery();
+			preparedStatement3.setString(1, guestID);
+			ResultSet rs3 = preparedStatement3.executeQuery();
+			while(rs2.next()) {
+				rs3.next();
+				checkin = rs2.getString("checkin");
+				checkout = rs2.getString("checkout");
+				id = rs2.getString("ReservationID");
+				preparedStatement4.setString(1, rs3.getString("HotelID"));
+				ResultSet rs4 = preparedStatement4.executeQuery();
+				rs4.next();
+				hotel = rs4.getString("name");
+				room_type = rs3.getString("room_type_name");
+				reservation.add(new Reservation(checkin, checkout, id, hotel, room_type));
+			}
+			
 		} catch (SQLException e) {
 			printSQLException(e);
 		}
+		
+		retUser = new User(username, name, surname, city, country, mobile_phone, reservation);
 		return retUser;
 	}
 	

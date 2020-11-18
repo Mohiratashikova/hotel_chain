@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Reservation</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+<link rel="stylesheet" href="styles.css">
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+
+
+function updateList(items) {
+    $("#my-list").html("");
+    i = 0;
+    $("my-list").append("<form id='rs'>");
+    items.forEach(function (e) {
+        $("#my-list").append("<li>" + e + "<a><input type='radio' id='"+ i +"' name='choose-room'></a>" + "</li>");
+        i++;
+    });
+    $("my-list").append("</form>");
+}
+
+
+function getListItems() {
+    $.ajax({
+        url : 'services/items',
+        dataType : 'json',
+        success : function(r) {
+            updateList(r);
+        }
+    });
+}
+
+
+function sendListItem() {
+    
+    var nRes = $("#Residents").val();
+    var fDate = $("#from").val();
+    var tDate = $("#to").val();
+    var r1 = document.getElementById("room1").checked;
+    var  r2 = document.getElementById("room2").checked;
+    var r3 = document.getElementById("room3").checked;
+    var r4 = document.getElementById("room4").checked;
+    if (r1 == false && r2 == false && r3 == false && r4 == false) {
+        r1 = true;
+        r2 = true;
+        r3 = true;
+        r4 = true;
+    }  
+        if(nRes == "" || nRes == null){
+    nRes = -1;
+    }
+    alert(nRes + "\n" + fDate + "\n" + tDate + "\n" + r1 + "\n" + r2 + "\n" + r3 + "\n" + r4);
+   
+}
+
+function chooseRoom(id, type) {
+    $.ajax({
+        url : "services/items/show/" + id + "/" + type,
+        dataType : 'json',
+        success : function(r) {
+            updateList(r);
+        }
+    });
+}
+
+$(document).ready(function () { 
+	getListItems();
+    $("#send-item").on('click', function () {
+    	var nRes = $("#Residents").val();	
+    	var radios = $('input[name="room-type"]:checked').val();
+        chooseRoom(nRes, radios);
+    });
+    
+    $("#create").on('click', function () {
+    	
+    });
+    
+});
+
+
+</script>
+</head>
+<body>
+<section class="rooms" id="services">
+    <div class="container">
+        <h5 class="section-head">
+            <span class="heading">Reservation</span>
+        </h5>
+    </div>
+</section>
+
+<section class="booking" id="reser">
+    <div class="container">
+        <form action="" class="book-form">
+            <div class="input-group">
+                <label for="adults" class="input-label">Number of Residents</label>
+                <select id="Residents" class="options">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="start" class="input-label">From date:</label>
+                <input type="date" class="input" id="from" name="from-date"
+                value="2020-11-22"
+                min="2020-10-10" max="2022-12-31">
+            </div>
+            <div class="input-group">
+                <label for="start" class="input-label">To date:</label>
+                <input type="date" class="input" id="to" name="to-date"
+                value="2020-11-23"
+                min="2020-10-10" max="2022-12-31">
+            </div>
+            <div class="input-group">
+                <label for="adults" class="input-label" name="room-type">Room Type</label>
+                <select id="Residents" class="options">
+                    <option value="0" id="single">Single</option>
+                    <option value="1" id="double">Double</option>
+                    <option value="2" id="premium">Premium</option>
+                    <option value="3" id="VIP">VIP</option>
+                </select>
+            </div>
+            <button id="send-item" type="button" class="btn form-btn btn-purple">Show Rooms
+                <span class="dots"><i class="fas fa-ellipsis-h"></i></span>
+            </button>
+            <button type="button" id="create" onclick="window.location.href='profile.html'" class="btn form-btn btn-purple" value="Create Reservation">Create Reservation
+                <span class="dots"><i class="fas fa-ellipsis-h"></i></span>
+            </button>
+        </form>
+    </div>
+</section>
+
+<ul id="my-list"></ul>
+ 
+</body>
+</html>

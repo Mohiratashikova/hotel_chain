@@ -182,42 +182,6 @@ section{
     z-index: 0;
 }
 
-.hero-dubai{
-    width: 100%;
-    height: 100vh;
-    background: url(./images/story.jpg) center no-repeat;
-    background-size: cover;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    position: relative;
-    z-index: 0;
-}
-
-.hero-almaty{
-    width: 100%;
-    height: 100vh;
-    background: url(./images/15.jpg) center no-repeat;
-    background-size: cover;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    position: relative;
-    z-index: 0;
-}
-
-.hero-bali{
-    width: 100%;
-    height: 100vh;
-    background: url(./images/background.jpg) center no-repeat;
-    background-size: cover;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    position: relative;
-    z-index: 0;
-}
-
 .hero::before{
     content: '';
     position: absolute;
@@ -503,6 +467,18 @@ section{
 
 .sm-link i{
     margin: auto;
+}
+
+.booking1 {
+    width: 100%;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0px -3px 0px rgba(147, 147, 170, 0.9) inset;
+    display: flex;
+    min-height: 40px;
+    padding: 10px;
+    align-items: center;
+    margin: 15px;
 }
 
 @media screen and (min-width: 768px) {
