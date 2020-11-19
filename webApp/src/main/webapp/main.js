@@ -9,3 +9,14 @@ window.addEventListener('scroll', function () {
 hamburgerMenu.addEventListener('click', function () {
     header.classList.toggle('menu-open');
 });
+
+let logLink = document.querySelector(".loggedIn");
+let login = document.querySelector(".login");
+if (logLink.innerHTML) {
+	
+	login.parentNode.style.display="none";
+	logLink.parentNode.style.display="block";
+} else {
+	logLink.parentNode.style.display="none";
+	login.parentNode.style.display="block";
+}

@@ -57,6 +57,7 @@
                             Edit
                         </button>
                         <button class="createbtn" onclick="logout()">Log Out</button>
+                        <a href="index.jsp">Browse</a>
                     </div>
 
                 </div>

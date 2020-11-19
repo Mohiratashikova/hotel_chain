@@ -1,4 +1,5 @@
 <!doctype html>
+<%@ page import = "java.io.*,java.util.*" %>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -10,6 +11,7 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
     <header class="header">
         <div class="container">
             <nav class="nav">
@@ -33,8 +35,13 @@
                     <li class="nav-item">
                         <a href="#hotels" class="nav-link">Hotels</a>
                     </li>
+                    <li class="nav-item ">
+                        <a href="./register?usr=<%=session.getAttribute("username")%>&login=1" class="nav-link loggedIn"><% if (session.getAttribute("username") != null) {
+	out.print(session.getAttribute("username"));
+} %></a>
+                    </li>
                     <li class="nav-item">
-                        <a href="./login.html" class="nav-link">Login | Join</a>
+                        <a href="./login.html" class="nav-link login">Login | Join</a>
                     </li>
                      <li class="nav-item">
                         <a href="./seasonsCreate.html" class="nav-link">ManagerCreateSeasons</a>
@@ -56,7 +63,12 @@
                     <h1 class="title">Legendary</h1>
                     <h2 class="subtitle">Your dream vacation</h2>
                 </div>
-                <a href="./login.html" class="btn btn-gradient">Make a reservation
+                <a href="
+                <% if(session.getAttribute("username") != null) {
+						out.print("#hotels");}
+					else {
+						out.print("./login.html");
+				}%>" class="btn btn-gradient">Make a reservation
                     <span class="dots"><i class="fas fa-ellipsis-h"></i></span>
                 </a>
             </div>

@@ -73,7 +73,7 @@
                             </tr>
                             <%}%>
                     </table>
-                    <a href="index.html" class="linkHome">Go back</a>
+                    <a href="index.jsp" class="linkHome">Go back</a>
                     <script src="manager.js"></script>
             </body>
 

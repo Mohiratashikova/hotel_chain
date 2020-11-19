@@ -11,7 +11,7 @@ import java.sql.PreparedStatement;
 public class EmployeeManager {
 	private String jdbcURL = "jdbc:mysql://localhost:3306/mydb";
 	private String jdbcUsername = "root";
-	private String jdbcPassword = "password";
+	private String jdbcPassword = "Mohikohhi12m$";
 	
 	private static final String SELECT_ALL = "select EmployeeID, JobTitle, name, surname from EMPLOYEE";
 	private static final String SELECT_EMPLOYEE = "select * "

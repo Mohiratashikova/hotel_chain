@@ -11,7 +11,7 @@ import java.sql.PreparedStatement;
 public class UserManager {
 	private String jdbcURL = "jdbc:mysql://localhost:3306/mydb";
 	private String jdbcUsername = "root";
-	private String jdbcPassword = "password";
+	private String jdbcPassword = "Mohikohhi12m$";
 	
 	private static final String INSERT_USERS_SQL = "INSERT INTO GUEST (username, password) VALUES (?, ?);";
 	private static final String SELECT_DATA_BY_USR = "select GuestID, username, mobile_phone, country, name, surname, city from GUEST where username = ?";

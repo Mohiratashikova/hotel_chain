@@ -43,7 +43,7 @@
 	</section>
 	<%	String jdbcURL = "jdbc:mysql://localhost:3306/mydb";
 		String jdbcUsername = "root";
-		String jdbcPassword = "password";
+		String jdbcPassword = "Mohikohhi12m$";
 		Connection connect = null;
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");

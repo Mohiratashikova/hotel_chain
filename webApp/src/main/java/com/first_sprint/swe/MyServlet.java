@@ -2,6 +2,8 @@ package com.first_sprint.swe;
 
 import java.io.IOException;
 
+import javax.servlet.http.*;
+
 
 import java.io.PrintWriter;
 
@@ -14,7 +16,7 @@ import javax.servlet.*;
 import com.google.gson.Gson;
 
 import javax.servlet.annotation.WebServlet;
-@WebServlet({"/register", "/checkUsername", "/edit", "/deleteBooking", "/employee", "/editEmployee", "/addSeason", "/deleteSeason"})
+@WebServlet({"/register", "/checkUsername", "/edit", "/deleteBooking", "/employee", "/editEmployee", "/addSeason", "/deleteSeason", "/logout"})
 public class MyServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private UserManager userManager;
@@ -68,6 +70,9 @@ public class MyServlet extends HttpServlet {
     			case "/addSeason":
     				addSeason(request, response);
     				break;
+    			case "/logout":
+    				logout(request, response);
+    				break;
     			default:
     				def(request, response);
     				break;
@@ -82,6 +87,7 @@ public class MyServlet extends HttpServlet {
 			throws SQLException, IOException, ServletException {
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/index.html");
 		dispatcher.forward(request, response);
+		System.out.println("here in the def function");
 	}
     private void deleteSeason(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
     	String seasonName = request.getParameter("ses");
@@ -106,10 +112,15 @@ public class MyServlet extends HttpServlet {
     	   user.setPassword(request.getParameter("psw"));
     	   userManager.insertUser(user);
 	    }
+       
+       HttpSession session=request.getSession(); 
+       session.setAttribute("username", user.getNickname());
+       //max interval of inactivity = 20 minutes
+       session.setMaxInactiveInterval(1200000);
        RequestDispatcher rd = request.getRequestDispatcher("profile.jsp");
        request.setAttribute("profile", user);
 	   rd.forward(request, response);
-       System.out.println("here");
+      
        }
 	    catch (Exception e) {
 	        e.printStackTrace();
@@ -221,6 +232,16 @@ public class MyServlet extends HttpServlet {
         }
         finally {            
             out.close();
+        }
+    }
+    private void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+    	//finish session
+    	try { 
+    		HttpSession session = request.getSession();
+    		session.invalidate();
+            response.sendRedirect("index.jsp");
+        } catch(Exception e) {
+        	e.printStackTrace();
         }
     }
 }

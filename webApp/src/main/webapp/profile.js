@@ -44,7 +44,7 @@ function editProfile(form){
 }
 
 function logout() {
-	window.location.href= "index.html";
+	window.location.href= "logout";
 }
 
 
