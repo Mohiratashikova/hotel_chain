@@ -9,7 +9,7 @@ public class User {
 	private String country;
 	private String city;
 	private String street;
-	
+	private String category;
 	private String idtype;
 	private String idnumber;
 	private String mobilePhone;
@@ -22,6 +22,7 @@ public class User {
 		this.nickname = nickname;
 	}
 	
+	
 	public User(String username, String name, String surname, String city, String country, String mobile_phone, ArrayList<Reservation> resrv) {
 		this.nickname = username;
 		this.name = name;
@@ -31,9 +32,10 @@ public class User {
 		this.mobilePhone = mobile_phone;
 		this.resrv = resrv;
 	}
-	public User(String username, String name, String surname, String idtype, String idnumber, String country, String city, String street, String home, String mobile) {
+	public User(String username, String name, String surname, String idtype, String idnumber, 
+			String country, String city, String street, String mobile, String home, String category) {
 		this.nickname = username;
-		
+		this.category = category;
 		this.name = name;
 		this.surname = surname;
 		this.city = city; 
@@ -125,6 +127,14 @@ public class User {
 	}
 	public ArrayList<Reservation> getReservations(){
 		return this.resrv;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
 	}
 }
 

@@ -11,105 +11,124 @@
 
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
             <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin=" anonymous"></script>
-            <style>
-                body {
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    height: 100vh;
-                  
-                    
-                }
-                
-                .profile {
-                    width: 60%;
-                    margin: 0 auto;
-                    border: 2px solid #555;
-                    padding: 10px;
-                }
-                
-                .schedule {
-                    display: flex;
-                }
-                input {
-                width: 50%;
-                }
-            </style>
+            <link  rel="stylesheet" href="./employee.css"></link>
+           
         </head>
 
         <body>
             <%Employee employee = (Employee)request.getAttribute("employee");%>
                 <div class="profile">
+                
                 <form action="editEmployee" method="post">
-                    <h1>Employee</h1>
-                    <p>ID:
-                        <input value="<%= employee.getEmployeeID() %>" name="id" readonly></input>
-                    </p>
-                    <p>Name:
+                <h1>Employee Card</h1>
+                <div class="content">
+                <div class="left">
+                    <div class="left-content">
+                    <p>ID:</p>
+                    <input value="<%= employee.getEmployeeID() %>" name="id" readonly></input>
+                    </div>
+                    <div class="left-content">
+                    <p>Name:</p>
                         <input value="<%= employee.getName() %>" name="name" readonly></input>
-                    </p>
-                    <p>Surname:
+               </div>
+                     <div class="left-content">
+                    <p>Surname:  </p>
                         <input value="<%= employee.getSurname() %>" name="surname" readonly></input>
-                    </p>
-                    <p>Job Title:
+                  </div>
+                     <div class="left-content">
+                    <p>Job Title:</p>
                         <input value="<%= employee.getJobTitle() %>" name ="job" readonly></input>
-                    </p>
-                    <p>Manager ID:
+                    </div>
+                     <div class="left-content">
+                    <p>Manager ID:</p>
                         <input value="<%= employee.getManagerID() %>" name="managerID" readonly></input>
-                    </p>
-                    
+                    </div>
+                    </div>
+                    <div class="right">
                         <div class="schedule">
                             <div class="monday">
                                  <p>M</p>
-                                <input type="text" name="monday" id="monday" 
-                                value="<% if (employee.isMonday()) out.print("T"); else out.print("F");%>" pattern="[T/t/F/f]" title="only T/F allowed">
+<label class="switch">
+  <input type="checkbox" name="monday" value="<%= employee.isMonday()%>">
+  <span class="slider round"></span>
+</label>
                             </div>
                             <div class="tuesday">
                                <p>Tu</p>
-                                <input type="text" name="tuesday" id="tuesday"
-                                 value="<% if (employee.isTuesday()) out.print("T"); else out.print("F"); %>" pattern="[T/t/F/f]" title="only T/F allowed">
+                                <label class="switch">
+  <input type="checkbox" name="tuesday" value="<%= employee.isTuesday()%>">
+  <span class="slider round"></span>
+</label>
                             </div>
                             <div class="wednesday">
                                 <p>W</p>
-                                <input type="text" name="wednesday" id="wednesday" 
-                                value="<% if (employee.isWednesday()) out.print("T"); else out.print("F"); %>" pattern="[T/t/F/f]" title="only T/F allowed">
+                                <label class="switch">
+  <input type="checkbox" name="wednesday" value="<%= employee.isWednesday()%>">
+  <span class="slider round"></span>
+</label>
                             </div>
                             <div class="thursday">
                                 <p>Th</p>
-                                <input type="text" name="thursday" id="thursday"
-                                 value="<% if (employee.isThursday()) out.print("T"); else out.print("F"); %>" pattern="[T/t/F/f]" title="only T/F allowed">
+                               <label class="switch">
+  <input type="checkbox" name="thursday" value="<%= employee.isThursday()%>">
+  <span class="slider round"></span>
+</label>
                             </div>
                             <div class="friday">
                                 <p>Fr</p>
-                                <input type="text" name="friday" id="friday"
-                                 value="<% if (employee.isFriday()) out.print("T"); else out.print("F"); %>" pattern="[T/t/F/f]" title="only T/F allowed">
+                               <label class="switch">
+  <input type="checkbox" name="friday" value="<%= employee.isFriday()%>">
+  <span class="slider round"></span>
+</label>
                             </div>
                             <div class="saturday">
                                 <p>St</p>
-                                <input type="text" name="saturday" id="saturday"
-                                 value="<% if (employee.isSaturday()) out.print("T"); else out.print("F"); %>" pattern="[T/t/F/f]" title="only T/F allowed">
+                                <label class="switch">
+  <input type="checkbox" name="saturday" value="<%= employee.isSaturday()%>">
+  <span class="slider round"></span>
+</label>
                             </div>
                             <div class="sunday">
                                  <p>Sn</p>
-                                <input type="text" name="sunday" id="sunday"
-                                 value="<% if (employee.isSunday()) out.print("T"); else out.print("F"); %>" pattern="[T/t/F/f]" title="only T/F allowed">
+                                <label class="switch">
+  <input type="checkbox" name="sunday" value="<%= employee.isSunday()%>">
+  <span class="slider round"></span>
+</label>
                             </div>
                         </div>
                         <p>Salary per hour:
-                            <input type="text" value="<%= employee.getSalaryPerHour() %>"
-                             pattern="[0-9]+" name="salary" title="Only numbers allowed">
+                            <input type="number" value="<%= employee.getSalaryPerHour() %>"
+                             name="salary" min="0" required>
                         </p>
                       <p>Working hours:
                       from: 
-                            <input type="time" value="<%= employee.getFromTime() %>"
-                             name="fromTime" >
+                            <input type="time" value="<%= employee.getFromTime()%>"
+                             name="fromTime" required >
                             to:  <input type="time" value="<%= employee.getToTime() %>"
-                             name="toTime" >
+                             name="toTime"  required>
                         </p>
-                        <button type="submit">Save</button>
-                        <button type="reset">Reset</button>
+                        <div class="btns">
+                        <button type="submit" id="saveBtn">Save</button>
+                        <button type="reset" id="resetBtn">Reset</button>
+                        </div>
+                        
+                        </div>
+                        </div>
                     </form>
                 </div>
+                <script>
+                let switches = document.querySelectorAll(".switch");
+                for (let a of switches ) {
+                	console.log(a.childNodes[1].value );
+                	if (a.childNodes[1].value == "true") {
+                		a.childNodes[1].checked = true;
+                	}
+                }
+                
+                	 
+                	
+                
+                </script>
         </body>
 
         </html>

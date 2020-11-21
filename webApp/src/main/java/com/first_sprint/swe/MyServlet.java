@@ -85,7 +85,7 @@ public class MyServlet extends HttpServlet {
     }
     private void def(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException {
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/index.html");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
 		dispatcher.forward(request, response);
 		System.out.println("here in the def function");
 	}
@@ -98,6 +98,8 @@ public class MyServlet extends HttpServlet {
     	Season season = new Season(request.getParameter("name"), request.getParameter("start-date"), 
     			request.getParameter("end-date"), request.getParameter("coeff1"), request.getParameter("coeff2"), "1");
     	managerControl.insertSeason(season);
+    	RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
+		dispatcher.forward(request, response);
     	
     }
     private void registerHandle(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
@@ -110,6 +112,7 @@ public class MyServlet extends HttpServlet {
     		user = userManager.getInfo(user);
        } else { 
     	   user.setPassword(request.getParameter("psw"));
+    	   user.setCategory("general");
     	   userManager.insertUser(user);
 	    }
        
@@ -172,7 +175,8 @@ public class MyServlet extends HttpServlet {
         		
         		request.getParameter("street"),
         		request.getParameter("mobile"),
-        		request.getParameter("home")
+        		request.getParameter("home"),
+        		request.getParameter("category")
         		);
         try {
         	userManager.editUser(user);
@@ -197,23 +201,24 @@ public class MyServlet extends HttpServlet {
     	Employee employee = new Employee();
     	employee.setEmployeeID(Integer.parseInt(request.getParameter("id")));
     	employee.setSalaryPerHour(Integer.parseInt(request.getParameter("salary")));
-    	boolean monday = false, tuesday = false, wednesday = false, thursday = false, friday = false, saturday = false, sunday = false;
+    	boolean monday = true, tuesday = true, wednesday = true, thursday = true, friday = true, saturday = true, sunday = true;
     	
-    	if (request.getParameter("monday").toUpperCase().equals("T"))  {
-    		monday = true;
+    	
+    	if (request.getParameter("monday")== null)  {
+    		monday = false;
     	} 
-    	if (request.getParameter("tuesday").toUpperCase().equals("T"))  {
-    		tuesday = true;
-    	} if (request.getParameter("wednesday").toUpperCase().equals("T"))  {
-    		wednesday = true;
-    	} if (request.getParameter("thursday").toUpperCase().equals("T"))  {
-    		thursday = true;
-    	} if (request.getParameter("friday").toUpperCase().equals("T"))  {
-    		friday = true;
-    	} if (request.getParameter("saturday").toUpperCase().equals("T"))  {
-    		saturday = true;
-    	} if (request.getParameter("sunday").toUpperCase().equals("T"))  {
-    		sunday = true;
+    	if (request.getParameter("tuesday")== null)  {
+    		tuesday = false;
+    	} if (request.getParameter("wednesday")== null)  {
+    		wednesday = false;
+    	} if (request.getParameter("thursday")== null)  {
+    		thursday = false;
+    	} if (request.getParameter("friday")== null)  {
+    		friday = false;
+    	} if (request.getParameter("saturday") == null)  {
+    		saturday = false;
+    	} if (request.getParameter("sunday") == null)  {
+    		sunday = false;
     	} 
     	employee.setMonday(monday);
     	employee.setTuesday(tuesday);
@@ -228,7 +233,7 @@ public class MyServlet extends HttpServlet {
     	employeeManager.editEmployee(employee);
     	PrintWriter out = response.getWriter();
         try { 
-            response.sendRedirect("manageSchedule.jsp");
+            response.sendRedirect("managerProfile.jsp");
         }
         finally {            
             out.close();

@@ -7,8 +7,8 @@ import java.sql.SQLException;
 public class ManagerControl {
 	private UserManager userManager;
 	
-	private static final String ADD_SEASON = "INSERT INTO season VALUES(?, ?, ?, ?, ?, ?)";
-	private static final String REMOVE_SEASON = "DELETE FROM season WHERE name = ? and HotelID = ?";
+	private static final String ADD_SEASON = "INSERT INTO SEASON VALUES(?, ?, ?, ?, ?, ?)";
+	private static final String REMOVE_SEASON = "DELETE FROM SEASON WHERE name = ? and HotelID = ?";
 	
 	public ManagerControl() {
 		userManager = new UserManager();

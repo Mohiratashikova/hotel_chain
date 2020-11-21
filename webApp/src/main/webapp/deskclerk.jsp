@@ -82,7 +82,6 @@
 			room_type = rs2.getString("room_type_name");
 			reservation.add(new Reservation(checkin, checkout, id, hotel, room_type));
 		}
-
 	%>
 	<div class="profile-booking tab" id = "BookingsDiv">
 		<h1><%=request.getParameter("guest")  %></h1>

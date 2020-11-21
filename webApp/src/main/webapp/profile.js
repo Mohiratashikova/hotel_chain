@@ -43,9 +43,6 @@ function editProfile(form){
 	//window.location.href = path;
 }
 
-function logout() {
-	window.location.href= "logout";
-}
 
 
 

@@ -104,7 +104,6 @@ body {
 }
 
 button.createbtn {
-    border: 0;
     padding: 10px;
     width: 100%;
     border-radius: 3px;
@@ -122,6 +121,59 @@ button.createbtn {
 }
 
 button.createbtn:hover {
+    background: rgba(255, 255, 255, 1);
+    color: var(--color);
+    border: 2px solid var(--color);
+}
+
+.adv {
+    display: flex;
+    position: relative;
+    top: -5px;
+    width: 100%;
+}
+
+.adv .browse {
+    padding: 5px;
+   width: 100%;
+    border-radius: 3px;
+    background: blue;
+    font-family: "Bree Serif", sans-serif;
+    font-size: 1rem;
+    margin: 5px 2px;
+    cursor: pointer;
+    outline: none;
+    margin-bottom: 10px;
+    transition: all .3s ease-in-out;
+    box-shadow: 0px 5px 7px 0px rgba(0, 0, 0, .3);
+    color: #fff;
+    border: 2px solid transparent;
+}
+
+.browse:hover {
+    background: rgba(255, 255, 255, 1);
+    color: rgb(127, 127, 158);
+    border: 2px solid blue;
+}
+
+.advisories {
+    padding: 5px;
+   width: 100%;
+    border-radius: 3px;
+    background: var(--color);
+    font-family: "Bree Serif", sans-serif;
+    font-size: 1rem;
+    margin: 5px 2px;
+    cursor: pointer;
+    outline: none;
+    margin-bottom: 10px;
+    transition: all .3s ease-in-out;
+    box-shadow: 0px 5px 7px 0px rgba(0, 0, 0, .3);
+    color: #fff;
+    border: 2px solid transparent;
+}
+
+.advisories:hover {
     background: rgba(255, 255, 255, 1);
     color: var(--color);
     border: 2px solid var(--color);

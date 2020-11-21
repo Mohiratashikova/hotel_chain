@@ -13,7 +13,7 @@ public class UserManager {
 	private String jdbcUsername = "root";
 	private String jdbcPassword = "Mohikohhi12m$";
 	
-	private static final String INSERT_USERS_SQL = "INSERT INTO GUEST (username, password) VALUES (?, ?);";
+	private static final String INSERT_USERS_SQL = "INSERT INTO GUEST (username, password, category) VALUES (?, ?, ?);";
 	private static final String SELECT_DATA_BY_USR = "select GuestID, username, mobile_phone, country, name, surname, city from GUEST where username = ?";
 	private static final String SELECT_RESERVATION_BY_USR = "SELECT * FROM RESERVATION WHERE GuestID = ?";
 	private static final String SELECT_RESERVATION2_BY_USR = "SELECT * FROM ROOM_has_RESERVATION WHERE GuestID = ?";
@@ -21,7 +21,7 @@ public class UserManager {
 	private static final String FIND_USERNAME = "select count(*) from GUEST where username = ?";
 	private static final String CHECK_PASSWORD = "select count(*) from GUEST where username = ? and password = ?";
 	private static final String EDIT_USER = "update GUEST "
-			+ "set name = ?, surname = ?, IDType = ?, IDNumber = ?,  country = ?, city = ?, street = ?, home_phone = ?, mobile_phone = ? "
+			+ "set name = ?, surname = ?, IDType = ?, IDNumber = ?,  country = ?, city = ?, street = ?, home_phone = ?, mobile_phone = ?,  category = ? "
 			+ "where username = ?;";
 
 	public UserManager() {
@@ -49,6 +49,7 @@ public class UserManager {
 				PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USERS_SQL)) {
 			preparedStatement.setString(1, user.getNickname());
 			preparedStatement.setString(2, user.getPassword());
+			preparedStatement.setString(3, user.getCategory());
 			System.out.println(preparedStatement);
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
@@ -173,7 +174,8 @@ public class UserManager {
 			preparedStatement.setString(7, user.getStreet());
 			preparedStatement.setString(8, user.getHomePhone());
 			preparedStatement.setString(9, user.getMobilePhone());
-			preparedStatement.setString(10, user.getNickname());
+			preparedStatement.setString(10, user.getCategory());
+			preparedStatement.setString(11, user.getNickname());
 			System.out.println(preparedStatement);
 			preparedStatement.executeUpdate();
 			

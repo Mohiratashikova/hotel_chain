@@ -11,12 +11,17 @@ hamburgerMenu.addEventListener('click', function () {
 });
 
 let logLink = document.querySelector(".loggedIn");
+let staff = document.querySelector("#staff") ;
 let login = document.querySelector(".login");
+
 if (logLink.innerHTML) {
 	
 	login.parentNode.style.display="none";
 	logLink.parentNode.style.display="block";
+	staff.style.display = "none";
 } else {
+	
 	logLink.parentNode.style.display="none";
 	login.parentNode.style.display="block";
+	staff.style.display = "block";
 }
