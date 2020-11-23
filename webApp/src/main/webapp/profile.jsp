@@ -35,7 +35,7 @@
                                 </div>
                                 <div class="adv">
                                     <button class="browse" onclick="window.location.href='index.jsp'">Browse</button>
-                                    <button class="advisories" onclick="window.location.href='advertisement.html'">Special Offers!</button>
+                                    <button class="advisories" onclick="window.location.href='advertisement.jsp'">Special Offers!</button>
                                 </div>
 
 

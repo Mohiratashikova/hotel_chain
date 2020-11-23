@@ -2,8 +2,9 @@ package com.first_sprint.swe;
 
 import java.io.IOException;
 
-import javax.servlet.http.*;
 
+import javax.servlet.http.*;
+import java.util.ArrayList;
 
 import java.io.PrintWriter;
 
@@ -16,13 +17,16 @@ import javax.servlet.*;
 import com.google.gson.Gson;
 
 import javax.servlet.annotation.WebServlet;
-@WebServlet({"/register", "/checkUsername", "/edit", "/deleteBooking", "/employee", "/editEmployee", "/addSeason", "/deleteSeason", "/logout"})
+@WebServlet({"/register", "/checkUsername", "/edit", "/deleteBooking", "/employee",
+	"/editEmployee", "/addSeason", "/deleteSeason", "/logout", "/checkManager", "/managerLog",
+	"/findRooms", "/createReservation"})
 public class MyServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private UserManager userManager;
     private ReservationManager reservationManager;
     private EmployeeManager employeeManager;
     private ManagerControl managerControl;
+    private ReservationControl reservationControl;
     private Gson gson = new Gson();
     /**
      * @see HttpServlet#HttpServlet()
@@ -33,7 +37,7 @@ public class MyServlet extends HttpServlet {
         reservationManager = new ReservationManager();
          employeeManager = new EmployeeManager();
          managerControl = new ManagerControl();
-         
+         reservationControl = new ReservationControl();
       
         // TODO Auto-generated constructor stub
     }
@@ -44,7 +48,7 @@ public class MyServlet extends HttpServlet {
     }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	String path = request.getServletPath();
-    	System.out.println(request.getRequestURL() + "__queries__ " + request.getQueryString());
+    	
     	try {
     		switch (path) {
     			case "/register":
@@ -73,6 +77,18 @@ public class MyServlet extends HttpServlet {
     			case "/logout":
     				logout(request, response);
     				break;
+    			case "/checkManager":
+    				checkManagerLog(request, response);
+    				break;
+    			case "/managerLog":
+    				managerLogin(request, response);
+    				break;
+    			case "/findRooms":
+    				findRooms(request, response);
+    				break;
+    			case "/createReservation":
+    				createReservation(request, response);
+    				break;
     			default:
     				def(request, response);
     				break;
@@ -87,7 +103,7 @@ public class MyServlet extends HttpServlet {
 			throws SQLException, IOException, ServletException {
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
 		dispatcher.forward(request, response);
-		System.out.println("here in the def function");
+		
 	}
     private void deleteSeason(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
     	String seasonName = request.getParameter("ses");
@@ -96,10 +112,8 @@ public class MyServlet extends HttpServlet {
     }
     private void addSeason(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
     	Season season = new Season(request.getParameter("name"), request.getParameter("start-date"), 
-    			request.getParameter("end-date"), request.getParameter("coeff1"), request.getParameter("coeff2"), "1");
+    			request.getParameter("end-date"), request.getParameter("coeff1"), request.getParameter("coeff2"), request.getParameter("hotelID"));
     	managerControl.insertSeason(season);
-    	RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
-		dispatcher.forward(request, response);
     	
     }
     private void registerHandle(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
@@ -113,11 +127,12 @@ public class MyServlet extends HttpServlet {
        } else { 
     	   user.setPassword(request.getParameter("psw"));
     	   user.setCategory("general");
-    	   userManager.insertUser(user);
+    	   user = userManager.insertUser(user);
 	    }
        
        HttpSession session=request.getSession(); 
        session.setAttribute("username", user.getNickname());
+       session.setAttribute("id", user.getID());
        //max interval of inactivity = 20 minutes
        session.setMaxInactiveInterval(1200000);
        RequestDispatcher rd = request.getRequestDispatcher("profile.jsp");
@@ -133,7 +148,7 @@ public class MyServlet extends HttpServlet {
     
     private void removeReservation(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
     	String res = request.getParameter("res");
-    	System.out.println(res);
+    	
     	reservationManager.remove(res);	
     }
 
@@ -150,7 +165,7 @@ public class MyServlet extends HttpServlet {
     	PrintWriter out = response.getWriter();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-    	//search DB on this "usr" value and print true if registered and false if not
+    	
 		try {
 			if(pass.equals(" ") && userManager.checkUsername(usr) || !pass.equals(" ") &&  userManager.checkPassword(usr, pass)) {
 				an.setAnswer("true");
@@ -180,6 +195,7 @@ public class MyServlet extends HttpServlet {
         		);
         try {
         	userManager.editUser(user);
+        	user = userManager.getInfo(user);
         	RequestDispatcher rd = request.getRequestDispatcher("profile.jsp");
             request.setAttribute("profile", user);
      	   rd.forward(request, response);
@@ -194,7 +210,7 @@ public class MyServlet extends HttpServlet {
     	RequestDispatcher rd = request.getRequestDispatcher("employee.jsp");
     	request.setAttribute("employee", employee);
  	   rd.forward(request, response);
- 	   System.out.println("reached here");
+ 	   
     }
     private void editEmployee(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
     	response.setContentType("text/html");
@@ -231,13 +247,10 @@ public class MyServlet extends HttpServlet {
     	employee.setFromTime(request.getParameter("fromTime"));
     	employee.setToTime(request.getParameter("toTime"));
     	employeeManager.editEmployee(employee);
-    	PrintWriter out = response.getWriter();
-        try { 
-            response.sendRedirect("managerProfile.jsp");
-        }
-        finally {            
-            out.close();
-        }
+    	Employee manager = managerControl.getInfo(employeeManager.getManagerID(request.getParameter("id")));
+    	RequestDispatcher rd = request.getRequestDispatcher("managerProfile.jsp");
+    	request.setAttribute("managerProfile", manager);
+ 	   	rd.forward(request, response);
     }
     private void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
     	//finish session
@@ -249,6 +262,83 @@ public class MyServlet extends HttpServlet {
         	e.printStackTrace();
         }
     }
+    private void checkManagerLog(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
+    	Answer an = new Answer();
+    	String usr = request.getParameter("usr");
+    	String pass = request.getParameter("pass");
+   
+    	PrintWriter out = response.getWriter();
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        
+        if(managerControl.checkLog(usr, pass)) {
+        	an.setAnswer("true");
+        } else {
+        	an.setAnswer("false");
+        }
+        out.append(gson.toJson(an));
+    }
+    
+    private void managerLogin(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
+    	response.setContentType("text/html");
+    	Employee manager;
+    	String username = request.getParameter("username");
+    	String password = request.getParameter("password");
+    	manager = managerControl.getInfo(username, password);
+    	RequestDispatcher rd = request.getRequestDispatcher("managerProfile.jsp");
+        request.setAttribute("managerProfile", manager);
+ 	   	rd.forward(request, response);
+    }
+    private void findRooms(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+
+    	//hotelID, type, inD, outD, residents
+    	int hotelID = Integer.parseInt(request.getParameter("hotelID"));
+    	
+    	String inD = request.getParameter("inD");
+    	
+    	String type = request.getParameter("type");
+    	
+    	String outD = request.getParameter("outD");
+    	
+    	int residents = Integer.parseInt(request.getParameter("residents"));
+    	
+    	ArrayList<Room> rooms = reservationControl.getRooms(hotelID, inD, type, outD, residents);
+    	
+    	PrintWriter out = response.getWriter();
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+    	
+		try {
+			out.append(gson.toJson(rooms));
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    }
+    private void createReservation(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
+    	response.setContentType("text/html");
+    	String id = request.getParameter("guestID");
+    	String values = request.getParameter("choice");
+    	
+    	String[] parts = values.split("\\|");
+    	
+    	String hotel = parts[0];
+    	String occupants = parts[1]; 
+  
+    	String checkin = parts[2];
+    	String checkout = parts[3];
+    	String roomtype = parts[4];
+    	String roomNumber = parts[5];
+    	String price = parts[6];
+    	
+    	Reservation reservation = new Reservation(id, hotel, occupants, checkin, checkout, roomtype, roomNumber);
+    	reservation.setPrice(Float.parseFloat(price));
+    	reservationManager.add(reservation);
+    	RequestDispatcher rd = request.getRequestDispatcher("receipt.jsp");
+        request.setAttribute("reservation", reservation);
+ 	   	rd.forward(request, response);
+    }
+    
 }
 
 class Answer{

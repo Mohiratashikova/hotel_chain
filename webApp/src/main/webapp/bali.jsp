@@ -5,7 +5,7 @@
     <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Almaty Resort</title>
+    <title>Bali Resort</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -13,8 +13,8 @@
     <header class="header">
         <div class="container">
             <nav class="nav">
-                <a href="index.html" class="logo">
-                    <img src="./images/loo.png" alt="">
+                <a href="index.jsp" class="logo">
+                    
                 </a>
                 <div class="hamburger-menu">
                     <i class="fas fa-bars"></i>
@@ -22,80 +22,36 @@
                 </div>
                 <ul class="nav-list">
                     <li class="nav-item">
-                        <a href="index.html" class="nav-link active">Home</a>
+                        <a href="index.jsp" class="nav-link active">Home</a>
                     </li>
                     <li class="nav-item">
                         <a href="#services" class="nav-link">Services</a>
                     </li>
+                    
                     <li class="nav-item">
-                        <a href="#reser" class="nav-link">Reservations</a>
+                        <a href="index.jsp" class="nav-link">Hotels</a>
                     </li>
-                    <li class="nav-item">
-                        <a href="index.html" class="nav-link">Hotels</a>
-                    </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a href="./login.html" class="nav-link">Login | Join</a>
-                    </li>
+                    </li> -->
                 </ul>
             </nav>
         </div>
     </header>
 
     <main>
-        <div class="hero-almaty" id="hero">
+        <div class="hero-bali" id="hero">
             <div class="container">
                 <div class="main-heading">
-                    <h1 class="title">Almaty resort</h1>
+                    <h1 class="title">Bali resort</h1>
                 </div>
-                <a href="./login.html" class="btn btn-gradient">Make a reservation
+                <a href="<% if (session.getAttribute("username") == null) {out.print("./login.html");} else {out.print("./reservation.jsp");} %>" class="btn btn-gradient">Make a reservation
                     <span class="dots"><i class="fas fa-ellipsis-h"></i></span>
                 </a>
             </div>
         </div>
 
-        <section class="booking" id="reser">
-            <div class="container">
-                <form action="" class="book-form">
-                    <div class="input-group">
-                        <label for="destination" class="input-label">Destination</label>
-                        <input type="text" class="input" id="destination">
-                    </div>
-                    <div class="input-group">
-                        <label for="check-in" class="input-label">Check in</label>
-                        <input type="date" class="input" id="check-in">
-                    </div>
-                    <div class="input-group">
-                        <label for="check-out" class="input-label">Check out</label>
-                        <input type="date" class="input" id="check-out">
-                    </div>
-                    <div class="input-group">
-                        <label for="adults" class="input-label">Adults</label>
-                        <select id="adults" class="options">
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select>
-                    </div>
-                    <div class="input-group">
-                        <label for="children" class="input-label">Children</label>
-                        <select id="children" class="options">
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn form-btn btn-purple">Search
-                        <span class="dots"><i class="fas fa-ellipsis-h"></i></span>
-                    </button>
-                </form>
-            </div>
-        </section>
+        
 
         <section class="rooms" id="reser">
             <div class="container">
@@ -126,32 +82,11 @@
                     </div>
                     <div class="grid-item featured-rooms">
                         <div class="image-wrap">
-                            <img class="room-image" src="./images/room_2.jpg" alt="">
-                            <h5 class="room-name">Double</h5>
-                        </div>
-                        <div class="room-info-wrap">
-                            <span class="room-price">$200 <span class="per-night">Per night</span></span>
-                            <p class="paragraph">   
-                                One hotel-quality orthopedic king-size beds.
-                                A large private bathroom with a hot water shower.
-                                A telephone with free unlimited international calls.
-                                Free high-speed Wi-Fi.
-                                Air-conditioning and a ceiling fan.
-                                Coffee Maker with free coffee.
-                                Hair dryer.
-                                Laundry service.
-                                Daily maid service.
-                            </p>
-                            <a href="#" class="btn rooms-btn">Book now</a>
-                        </div>
-                    </div>
-                    <div class="grid-item featured-rooms">
-                        <div class="image-wrap">
                             <img class="room-image" src="./images/room_3.jpg" alt="">
                             <h5 class="room-name">Presidential</h5>
                         </div>
                         <div class="room-info-wrap">
-                            <span class="room-price">$200 <span class="per-night">Per night</span></span>
+                            <span class="room-price">$500 <span class="per-night">Per night</span></span>
                             <p class="paragraph">
                                 Two hotel-quality orthopedic queen-size beds.
                                 A large private bathroom with a hot water shower.
@@ -165,34 +100,10 @@
                                 Daily maid service.                            </p>
                             <a href="#" class="btn rooms-btn">Book now</a>
                         </div>
-                    </div>
-                    <div class="grid-item featured-rooms">
-                        <div class="image-wrap">
-                            <img class="room-image" src="./images/room_4.jpg" alt="">
-                            <h5 class="room-name">VIP</h5>
-                        </div>
-                        <div class="room-info-wrap">
-                            <span class="room-price">$200 <span class="per-night">Per night</span></span>
-                            <p class="paragraph">
-                                Two hotel-quality orthopedic king-size beds.
-                                A large private bathroom with a hot water shower.
-                                A telephone with free unlimited international calls.
-                                Free high-speed Wi-Fi.
-                                Air-conditioning and a ceiling fan.
-                                Coffee Maker with free coffee.
-                                Cable television with over 80 channels in English/Spanish.
-                                Hair dryer.
-                                In-room safety deposit box (optional $1 per day).
-                                Room service from restaurant.
-                                Writing table and chairs.
-                                Laundry service.
-                                Daily maid service.                            </p>
-                            <a href="#" class="btn rooms-btn">Book now</a>
-                        </div>
-                    </div>
+                    </div>                    
                 </div>
             </div>
-        </section>
+        </section> 
 
         <section class="offer">
             <div class="container">
@@ -200,10 +111,10 @@
                     <h5 class="hotel-name">Contact Info</h5>
                     <i class="fa fa-address-book" aria-hidden="true"></i>
                     <p class="paragraph">
-                        Tel. Number: +7 727 272-00-70, +7 727 272-00-47
+                        Tel. Number: +7 (495) 705-92-47, +7 (495) 745-92-44
                     </p>
                     <p class="paragraph">
-                        Addres: Seifullin Ave 350, Almaty, Kazakhstan
+                        Addres:  Jl. Munduk Catu No.8, 80361 Canggu, Indonesia
                     </p>
                 </div>
             </div>
@@ -234,18 +145,7 @@
                         </div>
                         <div class="room-info-wrap">
                             <p class="paragraph">
-                                The Legendary Almaty Resort spa offers an extensive menu of treatments for those seeking relaxation and the rejuvenation of mind, body and soul.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="grid-item featured-rooms">
-                        <div class="image-wrap">
-                            <img class="room-image" src="./images/gym.jpg" alt="">
-                            <h5 class="room-name">Gym</h5>
-                        </div>
-                        <div class="room-info-wrap">
-                            <p class="paragraph">
-                                Our gym offers best equipment for your training.
+                                The Legendary Bali Resort spa offers an extensive menu of treatments for those seeking relaxation and the rejuvenation of mind, body and soul.
                             </p>
                         </div>
                     </div>

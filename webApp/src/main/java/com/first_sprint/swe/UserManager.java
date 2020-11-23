@@ -23,7 +23,7 @@ public class UserManager {
 	private static final String EDIT_USER = "update GUEST "
 			+ "set name = ?, surname = ?, IDType = ?, IDNumber = ?,  country = ?, city = ?, street = ?, home_phone = ?, mobile_phone = ?,  category = ? "
 			+ "where username = ?;";
-
+	private static final String FIND_ID = "select max(GuestID) as id from GUEST";
 	public UserManager() {
 	}
 
@@ -42,25 +42,36 @@ public class UserManager {
 		return connection;
 	}
 	
-	public void insertUser(User user) throws SQLException {
-		System.out.println(INSERT_USERS_SQL);
+	public User insertUser(User user) throws SQLException {
+		
 		// try-with-resource statement will auto close the connection.
 		try (Connection connection = getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USERS_SQL)) {
 			preparedStatement.setString(1, user.getNickname());
 			preparedStatement.setString(2, user.getPassword());
 			preparedStatement.setString(3, user.getCategory());
-			System.out.println(preparedStatement);
+			
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			printSQLException(e);
 		}
+		try (Connection connection = getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(FIND_ID)) {
+			
+			
+			ResultSet rs = preparedStatement.executeQuery();
+			rs.next();
+			user.setID(rs.getString("id"));
+		} catch (SQLException e) {
+			printSQLException(e);
+		}
+		return user;
 	}
 	
 	
 	public User getInfo(User user) throws SQLException {
 		User retUser = null;
-		System.out.println(SELECT_DATA_BY_USR);
+		
 		// try-with-resource statement will auto close the connection.
 		String username = "";
 		String mobile_phone = "";
@@ -84,7 +95,7 @@ public class UserManager {
 									PreparedStatement preparedStatement4 = connection.prepareStatement(SELECT_HOTELNAME_BY_HOTELID)) {
 			preparedStatement.setString(1, user.getNickname());
 			
-			System.out.println(preparedStatement);
+			
 			
 			ResultSet rs = preparedStatement.executeQuery();
 			while (rs.next()) {
@@ -119,16 +130,17 @@ public class UserManager {
 		}
 		
 		retUser = new User(username, name, surname, city, country, mobile_phone, reservation);
+		retUser.setID(guestID);
 		return retUser;
 	}
 	
 	public boolean checkUsername(String usr) throws SQLException {
-		System.out.println(FIND_USERNAME);
+		
 		// try-with-resource statement will auto close the connection.
 		try (Connection connection = getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(FIND_USERNAME)) {
 			preparedStatement.setString(1, usr);
-			System.out.println(preparedStatement);
+			
 			ResultSet rs = preparedStatement.executeQuery();
 			rs.next();
 		    int rowCount = rs.getInt(1);
@@ -141,13 +153,13 @@ public class UserManager {
 		return false;
 	}
 	public boolean checkPassword(String usr, String pass) throws SQLException {
-		System.out.println(CHECK_PASSWORD);
+		
 		// try-with-resource statement will auto close the connection.
 		try (Connection connection = getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(CHECK_PASSWORD)) {
 			preparedStatement.setString(1, usr);
 			preparedStatement.setString(2, pass);
-			System.out.println(preparedStatement);
+			
 			ResultSet rs = preparedStatement.executeQuery();
 			rs.next();
 		    int rowCount = rs.getInt(1);
@@ -161,7 +173,7 @@ public class UserManager {
 	}
 	
 	public void editUser(User user) throws SQLException {
-		System.out.println(EDIT_USER);
+		
 		// try-with-resource statement will auto close the connection.
 		try (Connection connection = getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(EDIT_USER)) {
@@ -176,7 +188,7 @@ public class UserManager {
 			preparedStatement.setString(9, user.getMobilePhone());
 			preparedStatement.setString(10, user.getCategory());
 			preparedStatement.setString(11, user.getNickname());
-			System.out.println(preparedStatement);
+			
 			preparedStatement.executeUpdate();
 			
 		} catch (SQLException e) {

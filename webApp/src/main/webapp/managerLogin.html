@@ -16,7 +16,7 @@
 <body>
     <div class="container" id="container">
         <div class="form-container sign-in-container">
-            <form id="form2" action="managerProfile.jsp" method="post">
+            <form id="form" action="managerLog" method="post" onsubmit="return checkManagerLog(event);">
                 <h1>Manager Sign in</h1>
                 <div class="form-control">
                     <input type="text" placeholder="Username" id="username" name="username" required/><small>Error message</small></div>
@@ -27,7 +27,7 @@
 
 
     </div>
-
+<script src="managerLog.js"></script>
 </body>
 
 

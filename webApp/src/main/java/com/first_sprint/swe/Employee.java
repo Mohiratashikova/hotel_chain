@@ -45,6 +45,13 @@ public class Employee {
 		this.setName(name);
 		this.setSurname(surname);
 	}
+	public Employee(int id, String jobTitle, String name, String surname, int hotelID) {
+		this.setEmployeeID(id);
+		this.setJobTitle(jobTitle);
+		this.setName(name);
+		this.setSurname(surname);
+		this.setHotelID(hotelID);
+	}
 	public String getJobTitle() {
 		return jobTitle;
 	}

@@ -13,7 +13,8 @@ public class EmployeeManager {
 	private String jdbcUsername = "root";
 	private String jdbcPassword = "Mohikohhi12m$";
 	
-	private static final String SELECT_ALL = "select EmployeeID, JobTitle, name, surname from EMPLOYEE";
+	private static final String SELECT_ALL_BY_MANAGER = "select EmployeeID, JobTitle, name, surname from EMPLOYEE WHERE ManagerID = ?";
+	private static final String SELECT_MANAGER_BY_EMPLOYEE = "SELECT * FROM EMPLOYEE WHERE EmployeeID = ?";
 	private static final String SELECT_EMPLOYEE = "select * "
 			+ "from EMPLOYEE E join SCHEDULE S on E.EmployeeID = S.EmployeeID"
 			+ " where E.EmployeeID = ?";
@@ -39,13 +40,28 @@ public class EmployeeManager {
 		return connection;
 	}
 	
-	
-	public ArrayList<Employee> getAllEmployees() throws SQLException {
+	public String getManagerID(String employeeID) throws SQLException {
+		String m_id = "";
+		try (Connection connection = getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(SELECT_MANAGER_BY_EMPLOYEE)) {
+			preparedStatement.setString(1, employeeID);
+			
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				m_id = rs.getString("ManagerID");
+			}
+		    
+		} catch (SQLException e) {
+			printSQLException(e);
+		}
+		return m_id;
+	}
+	public ArrayList<Employee> getAllEmployees(int managerID) throws SQLException {
 		ArrayList<Employee> employees = new ArrayList<Employee>();
 		try (Connection connection = getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL)) {
+				PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_BY_MANAGER)) {
+			preparedStatement.setInt(1, managerID);
 			
-			System.out.println(preparedStatement);
 			ResultSet rs = preparedStatement.executeQuery();
 			while (rs.next()) {
 				int id = rs.getInt("EmployeeID");
@@ -65,7 +81,7 @@ public class EmployeeManager {
 		try (Connection connection = getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(SELECT_EMPLOYEE)) {
 			preparedStatement.setInt(1, id);
-			System.out.println(preparedStatement);
+			
 			ResultSet rs = preparedStatement.executeQuery();
 			while (rs.next()) {
 				employee = new Employee(rs.getInt("EmployeeID"), 
@@ -107,7 +123,7 @@ public class EmployeeManager {
 			preparedStatement.setString(9, employee.getFromTime());
 			preparedStatement.setString(10, employee.getToTime());
 			preparedStatement.setInt(11, employee.getEmployeeID());
-			System.out.println(preparedStatement);
+			
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			printSQLException(e);

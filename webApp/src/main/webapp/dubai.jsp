@@ -13,8 +13,8 @@
     <header class="header">
         <div class="container">
             <nav class="nav">
-                <a href="index.html" class="logo">
-                    <img src="./images/loo.png" alt="">
+                <a href="index.jsp" class="logo">
+                    
                 </a>
                 <div class="hamburger-menu">
                     <i class="fas fa-bars"></i>
@@ -22,20 +22,18 @@
                 </div>
                 <ul class="nav-list">
                     <li class="nav-item">
-                        <a href="index.html" class="nav-link active">Home</a>
+                        <a href="index.jsp" class="nav-link active">Home</a>
                     </li>
                     <li class="nav-item">
                         <a href="#services" class="nav-link">Services</a>
                     </li>
+                    
                     <li class="nav-item">
-                        <a href="#reser" class="nav-link">Reservations</a>
+                        <a href="index.jsp" class="nav-link">Hotels</a>
                     </li>
-                    <li class="nav-item">
-                        <a href="index.html" class="nav-link">Hotels</a>
-                    </li>
-                    <li class="nav-item">
+                    <!--  <li class="nav-item">
                         <a href="./login.html" class="nav-link">Login | Join</a>
-                    </li>
+                    </li> -->
                 </ul>
             </nav>
         </div>
@@ -47,55 +45,13 @@
                 <div class="main-heading">
                     <h1 class="title">Dubai resort</h1>
                 </div>
-                <a href="./login.html" class="btn btn-gradient">Make a reservation
+                <a href="<% if (session.getAttribute("username") == null) {out.print("./login.html");} else {out.print("./reservation.jsp");} %>" class="btn btn-gradient">Make a reservation
                     <span class="dots"><i class="fas fa-ellipsis-h"></i></span>
                 </a>
             </div>
         </div>
 
-        <section class="booking" id="reser">
-            <div class="container">
-                <form action="" class="book-form">
-                    <div class="input-group">
-                        <label for="destination" class="input-label">Destination</label>
-                        <input type="text" class="input" id="destination">
-                    </div>
-                    <div class="input-group">
-                        <label for="check-in" class="input-label">Check in</label>
-                        <input type="date" class="input" id="check-in">
-                    </div>
-                    <div class="input-group">
-                        <label for="check-out" class="input-label">Check out</label>
-                        <input type="date" class="input" id="check-out">
-                    </div>
-                    <div class="input-group">
-                        <label for="adults" class="input-label">Adults</label>
-                        <select id="adults" class="options">
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select>
-                    </div>
-                    <div class="input-group">
-                        <label for="children" class="input-label">Children</label>
-                        <select id="children" class="options">
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn form-btn btn-purple">Search
-                        <span class="dots"><i class="fas fa-ellipsis-h"></i></span>
-                    </button>
-                </form>
-            </div>
-        </section>
+        
 
         <section class="rooms" id="reser">
             <div class="container">
@@ -130,7 +86,7 @@
                             <h5 class="room-name">Double</h5>
                         </div>
                         <div class="room-info-wrap">
-                            <span class="room-price">$200 <span class="per-night">Per night</span></span>
+                            <span class="room-price">$300 <span class="per-night">Per night</span></span>
                             <p class="paragraph">   
                                 One hotel-quality orthopedic king-size beds.
                                 A large private bathroom with a hot water shower.
@@ -151,7 +107,7 @@
                             <h5 class="room-name">VIP</h5>
                         </div>
                         <div class="room-info-wrap">
-                            <span class="room-price">$200 <span class="per-night">Per night</span></span>
+                            <span class="room-price">$600 <span class="per-night">Per night</span></span>
                             <p class="paragraph">
                                 Two hotel-quality orthopedic king-size beds.
                                 A large private bathroom with a hot water shower.

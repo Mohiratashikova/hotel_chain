@@ -5,7 +5,8 @@
 <%@page import="com.first_sprint.swe.Season"%>
 <%@page import="java.sql.*"%>
 
-<%String SELECT_SEASON_BY_HOTEL = "SELECT * FROM SEASON WHERE HotelID = 1";%>
+
+<%String SELECT_SEASON_BY_HOTEL = "SELECT * FROM SEASON WHERE HotelID = ?";%>
 
 <html lang="en">
 <head>
@@ -15,6 +16,20 @@
     <link rel=" stylesheet" href="./managerProfile.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
 	<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin=" anonymous"></script>
+<style>
+.linkHome {
+	padding: 5px;
+	text-decoration: none;
+	background-color: #000;
+	color: #fff;
+	font-weight: 400;
+	border-radius: 2px;
+	position: fixed;
+	bottom: 5px;
+	left: 50%;
+}
+
+</style>
 </head>
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -22,6 +37,7 @@
 		String jdbcUsername = "root";
 		String jdbcPassword = "Mohikohhi12m$";
 		Connection connect = null;
+		Employee manager = (Employee)request.getAttribute("managerProfile");
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			connect = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
@@ -32,9 +48,9 @@
 			e.printStackTrace();
 		}
 		ArrayList<Season> seasons = new ArrayList<Season>();
-
-		Statement st = connect.createStatement();
-		ResultSet rs = st.executeQuery(SELECT_SEASON_BY_HOTEL);
+		PreparedStatement preparedStatement1 = connect.prepareStatement(SELECT_SEASON_BY_HOTEL);
+		preparedStatement1.setInt(1, manager.getHotelID());
+		ResultSet rs = preparedStatement1.executeQuery();
 		
 		String name = "";
 		String start_date = "";
@@ -57,9 +73,9 @@
     <div class="container">
         <div class="profile-header">
             <div class="profile-nav-info">
-                <h3 class="username">Username</h3>
+                <h3 class="username"><%=manager.getName()%></h3>
                 <div class="address">
-                    <p id="hotel" class="hotel">Hotel</p>
+                    <p id="hotel" class="hotel">Hotel ID : <%=manager.getHotelID()%></p>
                 </div>
             </div>
         </div>
@@ -74,9 +90,10 @@
                 </div>
                 <div class="profile-body">
                 	<!-- employee schedule part: -->
+                	<a href="index.jsp" class="linkHome">Go back</a>
                     <div class="profile-employeeManager tab">
                     	<%EmployeeManager employeeManager = new EmployeeManager();
-						ArrayList<Employee> employees = employeeManager.getAllEmployees();%>
+						ArrayList<Employee> employees = employeeManager.getAllEmployees(manager.getEmployeeID());%>
                     	<table>
 	                        <tr>
 	                            <th>ID</th>
@@ -93,7 +110,7 @@
                             </tr>
                             <%}%>
                     	</table>
-	                    <a href="index.jsp" class="linkHome">Go back</a>
+	                    
 	                    <script src="manager.js"></script>
                     </div>
                     
@@ -124,8 +141,9 @@
                     </div>
                     
                     <div class="profile-seasonCreate tab">                        
-                        <form action="addSeason" method="post">
+                        <form id="addSeasonForm">
 							<h1>Seasons Rate Creation</h1>
+							 <input type="hidden" value="<%=manager.getEmployeeID()%>" name="employeeID">
 							<div>
 								<label for="name">Name</label>
 								<input type="text" name="name" id="name" placeholder="Name" required>
@@ -149,10 +167,10 @@
 								 <span class="validity"></span>
 							</div>
 							<div>
-								<input type="reset" value="Reset">
-								<input type="submit" value="Submit">
+								<button type="reset">Reset</button>
+								<button type="button" onclick="addSeason()">Submit</button>
 							</div>
-						</form>	
+						</form>
                     </div> 
                                       
                 </div>
@@ -168,6 +186,18 @@ function tabs(panelIndex) {
     tab[panelIndex].style.display = 'block';
 }
 tabs(0);
+function addSeason(){
+	var coeff1 = document.getElementById("coeff1").value;
+	var coeff2 = document.getElementById("coeff2").value;
+	var name = document.getElementById("name").value;
+	var start_date = document.getElementById("start-date").value;
+	var end_date = document.getElementById("end-date").value;
+	$.ajax({
+        url: 'addSeason?name=' + name + '&start-date=' + start_date + '&end-date=' + end_date + '&coeff1=' + coeff1 + '&coeff2=' + coeff2 + '&hotelID=' + <%=manager.getHotelID()%>,
+    }).done(function(){
+     	location.reload();
+    })
+}
 </script>
 </body>
 </html>

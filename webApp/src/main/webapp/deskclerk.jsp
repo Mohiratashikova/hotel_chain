@@ -14,11 +14,93 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
 	<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin=" anonymous"></script>
+<style>
+		.booking {
+    width: 100%;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0px -3px 0px rgba(147, 147, 170, 0.9) inset;
+    display: flex;
+    min-height: 40px;
+    padding: 10px;
+    align-items: center;
+    margin: 15px;
+    color: white;
+}
+
+.booking h3,
+.booking p {
+    padding: 15px;
+    font-weight: 700;
+}
+
+.booking h3 {
+    width: 30%;
+}
+
+.booking p {
+    width: 20%;
+}
+
+.booking button{
+    width: 30%;
+    background-color: rgba(101, 101, 228, 0.9);
+    color: white;
+    border: 2px solid transparent;
+    font-family: "poppins", sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    margin: 10px;
+    min-height: 50px;
+    font-size: 1.2rem;
+    transition: all .3s ease-in-out;
+}
+
+.booking button:hover {
+    background-color: #fff;
+    color: rgba(101, 101, 228, 0.9);
+    border-color: rgba(101, 101, 228, 0.9);
+}
+#guestID {
+text-align: center;
+}
+.nav {
+	display: flex;
+	justify-content: flex-end;
+	width: 100%;
+	
+}
+.nav .logo {
+	flex: 6;
+}
+.nav ul {
+background-color: rgba(101, 101, 228, 0.4);
+border-radius: 2px;
+flex: 1;
+}
+
+
+
+</style>
 </head>
 
 <body>
+
 	<section class="rooms" id="services">
         <div class="container">
+        <nav class="nav">
+                   <a href="index.jsp" class="logo">
+                       
+                    </a> 
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a href="index.jsp" class="nav-link">Home</a>
+                        </li>
+                        <li class="nav-item">
+                        	<a href="advertisement.jsp" class="nav-link">Offers</a>
+                    	</li>
+                    </ul>
+                </nav>
             <h5 class="section-head">
                 <span class="heading">Desk Clerk Management</span>
             </h5>
@@ -34,7 +116,7 @@
 				<input type="submit" class="btn form-btn btn-purple" value="Search">
 					<span class="dots"><i class="fas fa-ellipsis-h"></i></span>
 				
-				<button type="button" onclick="window.location.href='reservation.html'" class="btn form-btn btn-purple">Create Booking
+				<button type="button" onclick="window.location.href='reserveRoom.html'" class="btn form-btn btn-purple">Create Booking
 					<span class="dots"><i class="fas fa-ellipsis-h"></i></span>
 				</button>
 			</form>
@@ -84,9 +166,9 @@
 		}
 	%>
 	<div class="profile-booking tab" id = "BookingsDiv">
-		<h1><%=request.getParameter("guest")  %></h1>
+		<h1 id="guestID"><% if (request.getParameter("guest") != null) {out.print("ID: " + request.getParameter("guest"));}  %></h1>
 		<%for(Reservation rsrv : reservation){%>
-		<div id="<%=rsrv.getID()%>" class="booking1">
+		<div id="<%=rsrv.getID()%>" class="booking">
 			<h3><%=rsrv.getHotel()%> </h3>
 			<p><%=rsrv.getRoomType()%></p>
 			<p><%=rsrv.getCheckin()%> <br><%=rsrv.getCheckout()%></p>

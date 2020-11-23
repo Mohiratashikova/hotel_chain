@@ -12,7 +12,11 @@ public class ReservationManager {
 	
 	private static final String DELETE_FROM_RESERVATION = "DELETE FROM RESERVATION WHERE ReservationID = ?";
 	private static final String DELETE_FROM_ROOM_HISTORY = "DELETE FROM ROOM_has_RESERVATION WHERE ReservationID = ?";
-	
+	private static final String ADD_TO_RESERVATION = "insert into RESERVATION "
+			+ "(numOfOccupants, checkin, checkout, GuestID, final_price)"
+			+ " values ( ?, ?, ?, ?, ?)";
+	private static final String ADD_TO_ROOM_HISTORY = "insert into ROOM_has_RESERVATION "
+			+ " values ( ?, ?, ?, (select max(ReservationID) from RESERVATION), ?, ?)";
 	public ReservationManager() {
 		userManager = new UserManager();
 	}
@@ -23,6 +27,32 @@ public class ReservationManager {
 				PreparedStatement preparedStatement2 = connection.prepareStatement(DELETE_FROM_RESERVATION)){
 			preparedStatement1.setString(1, id);
 			preparedStatement2.setString(1, id);
+			
+			preparedStatement1.executeUpdate();
+			preparedStatement2.executeUpdate();
+			
+		}catch (SQLException e) {
+			printSQLException(e);
+		}
+		
+	}
+	public void add(Reservation reservation) {
+		try(Connection connection = userManager.getConnection();
+				PreparedStatement preparedStatement1 = connection.prepareStatement(ADD_TO_RESERVATION);
+				PreparedStatement preparedStatement2 = connection.prepareStatement(ADD_TO_ROOM_HISTORY)){
+			preparedStatement1.setString(1, reservation.getOccupants());
+			preparedStatement1.setString(2, reservation.getCheckin());
+			preparedStatement1.setString(3, reservation.getCheckout());
+			preparedStatement1.setString(4, reservation.getID());
+			preparedStatement1.setFloat(5, reservation.getPrice());
+			
+			
+			preparedStatement2.setString(1, reservation.getRoomNumber());
+			preparedStatement2.setString(2, reservation.getRoomType());
+			preparedStatement2.setString(3, reservation.getHotel());
+			preparedStatement2.setString(4, reservation.getID());
+			preparedStatement2.setString(5, reservation.getOccupants());
+			
 			preparedStatement1.executeUpdate();
 			preparedStatement2.executeUpdate();
 			

@@ -17,7 +17,7 @@
             <div class="container">
                 <nav class="nav">
                     <a href="index.jsp" class="logo">
-                        <img src="./images/loo.png" alt="">
+                        
                     </a>
                     <div class="hamburger-menu">
                         <i class="fas fa-bars"></i>
@@ -35,7 +35,7 @@
                             <a href="#hotels" class="nav-link">Hotels</a>
                         </li>
                         <li class="nav-item">
-                        <a href="./advertisement.html" class="nav-link">Offers</a>
+                        <a href="./advertisement.jsp" class="nav-link">Offers</a>
                     </li>
                         <li class="nav-item">
                             <a href="./register?usr=<%=session.getAttribute("username")%>&login=1" class="nav-link loggedIn"><% if (session.getAttribute("username") != null) {
@@ -93,7 +93,7 @@
                                 <i class="fas fa-star rating"></i>
                                 <i class="fas fa-star-half rating"></i>
                             </div>
-                            <a href="./bali.html" class="btn btn-gradient">Book now
+                            <a href="./bali.jsp" class="btn btn-gradient">Book now
                             <span class="dots"><i class="fas fa-ellipsis-h"></i></span>
                         </a>
                         </div>
@@ -101,7 +101,7 @@
                         <div class="grid-item featured-hotels">
                             <img src="./images/hotel_the_enchanted_garden.jpg" alt="" class="hotel-image">
                             <h5 class="hotel-name">Almaty</h5>
-                            <span class="hotel-price">From $300/Night</span>
+                            <span class="hotel-price">From $200/Night</span>
                             <div class="hotel-rating">
                                 <i class="fas fa-star rating"></i>
                                 <i class="fas fa-star rating"></i>
@@ -109,7 +109,7 @@
                                 <i class="fas fa-star rating"></i>
                                 <i class="fas fa-star rating"></i>
                             </div>
-                            <a href="./almaty.html" class="btn btn-gradient">Book now
+                            <a href="./almaty.jsp" class="btn btn-gradient">Book now
                             <span class="dots"><i class="fas fa-ellipsis-h"></i></span>
                         </a>
                         </div>
@@ -117,7 +117,7 @@
                         <div class="grid-item featured-hotels">
                             <img src="./images/hotel_astro_resort.jpg" alt="" class="hotel-image">
                             <h5 class="hotel-name">Dubai</h5>
-                            <span class="hotel-price">From $350/Night</span>
+                            <span class="hotel-price">From $200/Night</span>
                             <div class="hotel-rating">
                                 <i class="fas fa-star rating"></i>
                                 <i class="fas fa-star rating"></i>
@@ -125,7 +125,7 @@
                                 <i class="fas fa-star rating"></i>
                                 <i class="fas fa-star-half rating"></i>
                             </div>
-                            <a href="./dubai.html" class="btn btn-gradient">Book now
+                            <a href="./dubai.jsp" class="btn btn-gradient">Book now
                             <span class="dots"><i class="fas fa-ellipsis-h"></i></span>
                         </a>
                         </div>
